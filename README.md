@@ -1,7 +1,7 @@
-# Data analysis for the manuscript: "Environmental conditions promote local segregation, but functional distinctiveness allow aggregation of catfishes in the Amazonian estuary"
+# Data analysis for the manuscript: "xxx"
 
 ## Authors
-Bruno E. Soares, Naraiana L. Benone, Ronaldo B. Barthem, Alexandre P. Marceniuk and Luciano F. A. Montag
+Bruno E. Soares, xxx
 
 ## Published in
 Preprint available in EvoEvoRxiv: https://doi.org/10.32942/osf.io/nmyxt

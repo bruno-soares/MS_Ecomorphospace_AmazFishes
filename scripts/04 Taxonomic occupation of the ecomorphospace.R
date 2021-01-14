@@ -13,7 +13,7 @@ permanova2<-adonis(species_scores[,1:2]~families$x,method="euclidean",permutatio
 permanova1 # Are orders occupying different portions of the ecomorphospace?
 permanova2 # Are families occupying different portions of the ecomorphospace?
 
-# Pairwide function for adonis() #
+# Pairwise function for adonis() #
 pairwise.adonis <- function(x,factors, sim.function = 'vegdist', sim.method = 'euclidean', p.adjust.m ='bonferroni')
 {
   library(vegan)

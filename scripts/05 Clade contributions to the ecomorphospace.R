@@ -1,30 +1,31 @@
+library(geometry)
+
+
 library(vegan)
 library(ggplot2)
 library(scater)
-library(geometry)
 library(rcdd)
 source("utils2.R")
 library(ape)
 
-### Qual a riqueza ecomorfológica dos clados no dataset A? ###
-# Beloniformes, Gobiiformes e Perciformes não podem ser calculado
-# Modelos não feitos para Synbranchiformes, que só tinham 5 espécies
-FD_dataA<-c(convhulln(data.matrix(split(dataA_scores,dataA_orders$x)$Characiformes)[,c(1:4)],option="FA")$vol,
-            convhulln(data.matrix(split(dataA_scores,dataA_orders$x)$Cichliformes)[,c(1:4)],option="FA")$vol,
-            convhulln(data.matrix(split(dataA_scores,dataA_orders$x)$Cyprinodontiformes)[,c(1:4)],option="FA")$vol,
-            convhulln(data.matrix(split(dataA_scores,dataA_orders$x)$Gymnotiformes)[,c(1:4)],option="FA")$vol,
-            convhulln(data.matrix(split(dataA_scores,dataA_orders$x)$Siluriformes)[,c(1:4)],option="FA")$vol,
-            convhulln(data.matrix(split(dataA_scores,dataA_orders$x)$Synbranchiformes)[,c(1:4)],option="FA")$vol)
-FD_dataA
-S_dataA<-c(nrow(split(dataA_scores,dataA_orders$x)$Characiformes),
-           nrow(split(dataA_scores,dataA_orders$x)$Cichliformes),
-           nrow(split(dataA_scores,dataA_orders$x)$Cyprinodontiformes),
-           nrow(split(dataA_scores,dataA_orders$x)$Gymnotiformes),
-           nrow(split(dataA_scores,dataA_orders$x)$Siluriformes),
-           nrow(split(dataA_scores,dataA_orders$x)$Synbranchiformes))
-S_dataA
-plot(log(FD_dataA)~S_dataA)
-plot(FD_dataA~S_dataA)
+### Functional richness for each taxonomic order ###
+# Taxonomic orders with less than 3 species cannot be calculated
+# Null modelling was not applied for Synbranchiformes due to the low number of species
+F_richness<-c(convhulln(data.matrix(split(species_scores,orders$x)$Characiformes)[,c(1:2)],option="FA")$vol,
+            convhulln(data.matrix(split(species_scores,orders$x)$Cichliformes)[,c(1:2)],option="FA")$vol,
+            convhulln(data.matrix(split(species_scores,orders$x)$Cyprinodontiformes)[,c(1:2)],option="FA")$vol,
+            convhulln(data.matrix(split(species_scores,orders$x)$Gymnotiformes)[,c(1:2)],option="FA")$vol,
+            convhulln(data.matrix(split(species_scores,orders$x)$Siluriformes)[,c(1:2)],option="FA")$vol,
+            convhulln(data.matrix(split(species_scores,orders$x)$Synbranchiformes)[,c(1:2)],option="FA")$vol)
+F_richness
+S_richness<-c(nrow(split(species_scores,orders$x)$Characiformes),
+           nrow(split(species_scores,orders$x)$Cichliformes),
+           nrow(split(species_scores,orders$x)$Cyprinodontiformes),
+           nrow(split(species_scores,orders$x)$Gymnotiformes),
+           nrow(split(species_scores,orders$x)$Siluriformes),
+           nrow(split(species_scores,orders$x)$Synbranchiformes))
+S_richness
+plot(log(F_richness)~S_richness)
 
 Characiformes_dataA<-data.matrix(split(dataA_scores,dataA_orders$x)$Characiformes)
 Characiformes_dataA_resampling<-data.frame()

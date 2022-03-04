@@ -1,9 +1,8 @@
+### Loading packages ###
 library(geometry)
 library(scater)
 
 ### Functional richness for each taxonomic order ###
-# Taxonomic orders with less than 3 species cannot be calculated
-# Null modelling was not applied for Synbranchiformes due to the low number of species
 F_richness<-c(convhulln(data.matrix(split(species_scores,orders$x)$Characiformes)[,c(1:2)],option="FA")$vol,
             convhulln(data.matrix(split(species_scores,orders$x)$Cichliformes)[,c(1:2)],option="FA")$vol,
             convhulln(data.matrix(split(species_scores,orders$x)$Cyprinodontiformes)[,c(1:2)],option="FA")$vol,
@@ -20,6 +19,8 @@ S_richness<-c(nrow(split(species_scores,orders$x)$Characiformes),
 S_richness
 plot(log(F_richness)~S_richness)
 
+
+### Null models ###
 Characiformes_data<-data.matrix(split(species_scores,orders$x)$Characiformes)
 Characiformes_FRic_Null<-data.frame()
 for(i in 1:10000){
@@ -81,17 +82,18 @@ Cyprinodontiformes_FRic_leftci<-mean(Cyprinodontiformes_FRic_Null[,1])+Cyprinodo
 Cyprinodontiformes_FRic_rightci<-mean(Cyprinodontiformes_FRic_Null[,1])-Cyprinodontiformes_FRic_error
 
 pd <- position_dodge(0.1)
+
 Figure4a<-ggplot()+
-  geom_errorbar(aes(x="Cyprinodontiformes",min=Cyprinodontiformes_FRic_leftci,max=Cyprinodontiformes_FRic_rightci),width=0.5,position=pd,colour="orange",size=1.2)+
-  geom_errorbar(aes(x="Cichliformes",min=Cichliformes_FRic_leftci,max=Cichliformes_FRic_rightci),width=0.5,position=pd,colour="blue",size=1.2)+
-  geom_errorbar(aes(x="Characiformes",min=Characiformes_FRic_leftci,max=Characiformes_FRic_rightci),width=.5,position=pd,colour="red",size=1.2)+
-  geom_errorbar(aes(x="Siluriformes",min=Siluriformes_FRic_leftci,max=Siluriformes_FRic_rightci),width=.5,position=pd,colour="pink",size=1.2)+
-  geom_errorbar(aes(x="Gymnotiformes",min=Gymnotiformes_FRic_leftci,max=Gymnotiformes_FRic_rightci),width=.5,position=pd,colour="green",size=1.2)+
-  geom_point(aes(x="Cyprinodontiformes",y=mean(Cyprinodontiformes_FRic_Null[,1])),position=pd,colour="orange",size=2.5)+
-  geom_point(aes(x="Cichliformes",y=mean(Cichliformes_FRic_Null[,1])),position=pd,colour="blue",size=2.5)+
-  geom_point(aes(x="Characiformes",y=mean(Characiformes_FRic_Null[,1])),position=pd,colour="red",size=2.5)+
-  geom_point(aes(x="Siluriformes",y=mean(Siluriformes_FRic_Null[,1])),position=pd,colour="pink",size=2.5)+
-  geom_point(aes(x="Gymnotiformes",y=mean(Gymnotiformes_FRic_Null[,1])),position=pd,colour="green",size=2.5)+
+  geom_errorbar(aes(x="Cyprinodontiformes",min=Cyprinodontiformes_FRic_leftci,max=Cyprinodontiformes_FRic_rightci),width=0.5,position=pd,size=1.2)+
+  geom_errorbar(aes(x="Cichliformes",min=Cichliformes_FRic_leftci,max=Cichliformes_FRic_rightci),width=0.5,position=pd,size=1.2)+
+  geom_errorbar(aes(x="Characiformes",min=Characiformes_FRic_leftci,max=Characiformes_FRic_rightci),width=.5,position=pd,size=1.2)+
+  geom_errorbar(aes(x="Siluriformes",min=Siluriformes_FRic_leftci,max=Siluriformes_FRic_rightci),width=.5,position=pd,size=1.2)+
+  geom_errorbar(aes(x="Gymnotiformes",min=Gymnotiformes_FRic_leftci,max=Gymnotiformes_FRic_rightci),width=.5,position=pd,size=1.2)+
+  geom_point(aes(x="Cyprinodontiformes",y=mean(Cyprinodontiformes_FRic_Null[,1])),position=pd,size=2.5)+
+  geom_point(aes(x="Cichliformes",y=mean(Cichliformes_FRic_Null[,1])),position=pd,size=2.5)+
+  geom_point(aes(x="Characiformes",y=mean(Characiformes_FRic_Null[,1])),position=pd,size=2.5)+
+  geom_point(aes(x="Siluriformes",y=mean(Siluriformes_FRic_Null[,1])),position=pd,size=2.5)+
+  geom_point(aes(x="Gymnotiformes",y=mean(Gymnotiformes_FRic_Null[,1])),position=pd,size=2.5)+
   xlab("Lineages")+
   ylab("FRIc")+
   theme(panel.background = element_rect(fill = "white", colour = "black", size = 0.5), # opcoes graficas
@@ -214,16 +216,16 @@ Cyprinodontiformes_FSpe_rightci<-mean(Cyprinodontiformes_FSpe_Null[,1])-Cyprinod
 
 pd <- position_dodge(0.1)
 Figure4b<-ggplot()+
-  geom_errorbar(aes(x="Cichliformes",min=Cichliformes_FSpe_leftci,max=Cichliformes_FSpe_rightci),width=0.5,position=pd,colour="blue",size=1.2)+
-  geom_errorbar(aes(x="Cyprinodontiformes",min=Cyprinodontiformes_FSpe_leftci,max=Cyprinodontiformes_FSpe_rightci),width=0.5,position=pd,colour="orange",size=1.2)+
-  geom_errorbar(aes(x="Characiformes",min=Characiformes_FSpe_leftci,max=Characiformes_FSpe_rightci),width=.5,position=pd,colour="red",size=1.2)+
-  geom_errorbar(aes(x="Siluriformes",min=Siluriformes_FSpe_leftci,max=Siluriformes_FSpe_rightci),width=.5,position=pd,colour="pink",size=1.2)+
-  geom_errorbar(aes(x="Gymnotiformes",min=Gymnotiformes_FSpe_leftci,max=Gymnotiformes_FSpe_rightci),width=.5,position=pd,colour="green",size=1.2)+
-  geom_point(aes(x="Cyprinodontiformes",y=mean(Cyprinodontiformes_FSpe_Null[,1])),position=pd,colour="orange",size=2.5)+
-  geom_point(aes(x="Cichliformes",y=mean(Cichliformes_FSpe_Null[,1])),position=pd,colour="blue",size=2.5)+
-  geom_point(aes(x="Characiformes",y=mean(Characiformes_FSpe_Null[,1])),position=pd,colour="red",size=2.5)+
-  geom_point(aes(x="Siluriformes",y=mean(Siluriformes_FSpe_Null[,1])),position=pd,colour="pink",size=2.5)+
-  geom_point(aes(x="Gymnotiformes",y=mean(Gymnotiformes_FSpe_Null[,1])),position=pd,colour="green",size=2.5)+
+  geom_errorbar(aes(x="Cichliformes",min=Cichliformes_FSpe_leftci,max=Cichliformes_FSpe_rightci),width=0.5,position=pd,size=1.2)+
+  geom_errorbar(aes(x="Cyprinodontiformes",min=Cyprinodontiformes_FSpe_leftci,max=Cyprinodontiformes_FSpe_rightci),width=0.5,position=pd,size=1.2)+
+  geom_errorbar(aes(x="Characiformes",min=Characiformes_FSpe_leftci,max=Characiformes_FSpe_rightci),width=.5,position=pd,size=1.2)+
+  geom_errorbar(aes(x="Siluriformes",min=Siluriformes_FSpe_leftci,max=Siluriformes_FSpe_rightci),width=.5,position=pd,size=1.2)+
+  geom_errorbar(aes(x="Gymnotiformes",min=Gymnotiformes_FSpe_leftci,max=Gymnotiformes_FSpe_rightci),width=.5,position=pd,size=1.2)+
+  geom_point(aes(x="Cyprinodontiformes",y=mean(Cyprinodontiformes_FSpe_Null[,1])),position=pd,size=2.5)+
+  geom_point(aes(x="Cichliformes",y=mean(Cichliformes_FSpe_Null[,1])),position=pd,size=2.5)+
+  geom_point(aes(x="Characiformes",y=mean(Characiformes_FSpe_Null[,1])),position=pd,size=2.5)+
+  geom_point(aes(x="Siluriformes",y=mean(Siluriformes_FSpe_Null[,1])),position=pd,size=2.5)+
+  geom_point(aes(x="Gymnotiformes",y=mean(Gymnotiformes_FSpe_Null[,1])),position=pd,size=2.5)+
   xlab("Lineages")+
   ylab("FSpe")+
   theme(panel.background = element_rect(fill = "white", colour = "black", size = 0.5), # opcoes graficas

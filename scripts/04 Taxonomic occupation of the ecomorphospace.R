@@ -1,8 +1,3 @@
-# Data #
-species_scores
-orders
-families
-
 # Loading packages #
 library(vegan)
 library(RVAideMemoire)
@@ -10,8 +5,8 @@ library(RVAideMemoire)
 ### PERMANOVA for differences in the ecomorphospace among fish clades ###
 permanova1<-adonis(species_scores[,1:2]~orders$x,method="euclidean",permutations=999)
 permanova2<-adonis(species_scores[,1:2]~families$x,method="euclidean",permutations=999)
-permanova1 # Are orders occupying different portions of the ecomorphospace?
-permanova2 # Are families occupying different portions of the ecomorphospace?
+permanova1$aov.tab # Are orders occupying different portions of the ecomorphospace?
+permanova2$aov.tab # Are families occupying different portions of the ecomorphospace?
 
 # Pairwise function for adonis() #
 pairwise.adonis <- function(x,factors, sim.function = 'vegdist', sim.method = 'euclidean', p.adjust.m ='bonferroni')
@@ -48,9 +43,3 @@ pairwise.adonis <- function(x,factors, sim.function = 'vegdist', sim.method = 'e
   return(pairw.res)
   
 } 
-
-### Pairwise PERMANOVA for differences in the ecomorphospace among fish clades ###
-pairwise_orders<-pairwise.adonis(species_scores[,1:2],as.factor(orders$x))
-pairwise_families<-pairwise.adonis(species_scores[,1:2],as.factor(families$x))
-write.table(pairwise_orders,"results/pairwise_orderlevel.txt")
-write.table(pairwise_families,"results/pairwise_familylevel.txt")
